@@ -21,6 +21,65 @@ for(let i =0; i < 6; i++){
 
 grid.innerHTML = display;
 
+function checkForWin(player) {
+  //Check for horizontal win
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col <= cols - 4; col++) {
+      if (
+        nestedArray[row][col] === player &&
+        nestedArray[row][col + 1] === player &&
+        nestedArray[row][col + 2] === player &&
+        nestedArray[row][col + 3] === player
+      ) {
+        return true;
+      }
+    }
+  }
+
+  //Check for vertical win
+  for (let row = 0; row <= rows - 4; row++) {
+    for (let col = 0; col < cols; col++) {
+      if (
+        nestedArray[row][col] === player &&
+        nestedArray[row + 1][col] === player &&
+        nestedArray[row + 2][col] === player &&
+        nestedArray[row + 3][col] === player
+      ) {
+        return true;
+      }
+    }
+  }
+
+  //Check for diagonal win (top left to bottom rigjt)
+  for (let row = 0; row <= rows - 4; row++) {
+    for (let col = 0; col <= cols - 4; col++) {
+      if (
+        nestedArray[row][col] === player &&
+        nestedArray[row + 1][col + 1] === player &&
+        nestedArray[row + 2][col + 2] === player &&
+        nestedArray[row + 3][col + 3] === player
+      ) {
+        return true;
+      }
+    }
+  }
+
+  //Check for diagonal win (bottom left to top right)
+  for (let row = 3; row < rows; row++) {
+    for (let col = 0; col <= cols - 4; col++) {
+      if (
+        nestedArray[row][col] === player &&
+        nestedArray[row - 1][col + 1] === player &&
+        nestedArray[row - 2][col + 2] === player &&
+        nestedArray[row - 3][col + 3] === player
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
 const dropToken=(btnValue) =>{
   const slots = document.querySelectorAll("div.gridItem")
   display =""
@@ -49,24 +108,28 @@ const dropToken=(btnValue) =>{
   }
   grid.innerHTML = display;
 
-
-  //checks if board is full
-  let flag = true;
-  for(let i =0; i < 6; i++){
-    for(let j =0; j < 7; j++){
+  //Chceck for win
+  if (checkForWin(playerMode - 1)) {
+    console.log(`Player ${playerMode - 1} wins`);
+  } else {
+    //checks if board is full
+    let flag = true
+    for(let i =0; i < 6; i++){
+      for(let j =0; j < 7; j++){
         if(nestedArray[i][j] == 0)
         {
           flag = false
         }
       }
-  }
-  if(flag==true)
-  {
-    console.log("Tie")
-  }
-  else 
-  {
-    console.log("game is till going")
+    }
+    if(flag==true)
+    {
+      console.log("Tie")
+    }
+    else 
+    {
+      console.log("game is till going")
+    }
   }
 }
 
